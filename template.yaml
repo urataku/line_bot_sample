@@ -1,0 +1,39 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  linebot_sample
+
+  Sample SAM Template for linebot_sample
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  LineBotSampleFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: line_bot_sample/
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      Events:
+        LineBotSample:
+          Type: Api
+          Properties:
+            Path: /line_bot_sample
+            Method: post
+      Environment:
+        Variables:
+          ACCESS_TOKEN: "YOUR_LINE_ACCESS_TOKEN"
+
+Outputs:
+  LineBotSampleApi:
+    Description: "API Gateway endpoint URL for Prod stage for Line Bot Sample function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/line_bot_sample/"
+  LineBotSampleFunction:
+    Description: "Line Bot Sample Lambda Function ARN"
+    Value: !GetAtt LineBotSampleFunction.Arn
+  LineBotSampleFunctionIamRole:
+    Description: "Implicit IAM Role created for Line Bot Sample function"
+    Value: !GetAtt LineBotSampleFunctionRole.Arn

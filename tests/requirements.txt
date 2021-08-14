@@ -1,0 +1,5 @@
+pytest
+pytest-mock
+line-bot-sdk
+requests
+boto3
